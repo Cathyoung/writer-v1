@@ -12,7 +12,7 @@
 
 ### IntelliJ IDEA ###
 .idea
-.mvn/wrapper
+*.mvn
 *.iws
 *.iml
 *.ipr
