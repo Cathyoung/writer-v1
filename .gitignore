@@ -28,4 +28,5 @@ src/
 
 ### logs ###
 logs
+.mvn/*
 
