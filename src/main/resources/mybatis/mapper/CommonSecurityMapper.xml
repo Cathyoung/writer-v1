@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.slingerxv.writer.security.mapper.CommonSecurityMapper">
+    <sql id="admin_column">
+        id, username, password, email, real_name, mobile, status, create_timestamp, update_timestamp
+    </sql>
+
+    <sql id="role_column">
+        id, name, status, description
+    </sql>
+
+    <sql id="authority_column">
+        id, name, authority, description
+    </sql>
+
+    <sql id="admin_role_column">
+        admin_id, role_id
+    </sql>
+
+    <sql id="role_authority_column">
+        role_id, authority_id
+    </sql>
+
+    <insert id="saveAdmin">
+        INSERT INTO `common_admin` (
+            username, password, email, real_name, mobile, status, create_timestamp, update_timestamp
+        )
+        VALUES (
+            #{username},
+            #{password},
+            #{email},
+            #{realName},
+            #{mobile},
+            #{status},
+            ROUND(UNIX_TIMESTAMP(CURTIME(4)) * 1000),
+            ROUND(UNIX_TIMESTAMP(CURTIME(4)) * 1000)
+        )
+    </insert>
+
+    <delete id="removeAdmins">
+        DELETE FROM `common_admin`
+        WHERE `id` IN
+        <foreach collection="adminIds" item="adminId" open="(" close=")" separator=",">
+            #{adminId}
+        </foreach>
+    </delete>
+
+    <update id="updateAdmin">
+        UPDATE `common_admin`
+        SET `id` = #{id}
+        <if test="username != null">
+            ,`username` = #{username}
+        </if>
+        <if test="password != null">
+            ,`password` = #{password}
+        </if>
+        <if test="email != null">
+            ,`email` = #{email}
+        </if>
+        <if test="realName != null">
+            ,`real_name` = #{realName}
+        </if>
+        <if test="mobile != null">
+            ,`mobile` = #{mobile}
+        </if>
+        <if test="status != null">
+            ,`status` = #{status}
+        </if>
+        WHERE `id` = #{id}
+    </update>
+
+    <select id="listAdmins" resultType="com.slingerxv.writer.security.model.CommonAdmin">
+        SELECT
+        <include refid="admin_column"/>
+        FROM `common_admin`
+        WHERE 1 = 1
+        <if test="adminIds != null and !adminIds.isEmpty()">
+            AND `id` IN
+            <foreach collection="adminIds" item="adminId" open="(" close=")" separator=",">
+                #{adminId}
+            </foreach>
+        </if>
+        <if test="usernames != null and !usernames.isEmpty()">
+            AND `username` IN
+            <foreach collection="usernames" item="username" open="(" close=")" separator=",">
+                #{username}
+            </foreach>
+        </if>
+        <if test="realNames != null and !realNames.isEmpty()">
+            AND `real_name` IN
+            <foreach collection="realNames" item="realName" open="(" close=")" separator=",">
+                #{realName}
+            </foreach>
+        </if>
+        <if test="status != null">
+            AND `status` = #{status}
+        </if>
+    </select>
+
+    <select id="listAdminsByRoleIds" resultType="com.slingerxv.writer.security.model.CommonAdmin">
+        SELECT DISTINCT
+        <include refid="admin_column"/>
+        FROM `common_admin` AS A
+        INNER JOIN `common_admin_role` AS AR ON A.`id` = AR.`admin_id`
+        WHERE AR.`role_id` IN (0
+        <if test="roleIds != null and !roleIds.isEmpty()">
+            <foreach collection="roleIds" item="roleId">
+                ,#{roleId}
+            </foreach>
+        </if>
+        )
+    </select>
+
+    <select id="listRolesByAdminIds" resultType="com.slingerxv.writer.security.model.CommonRole">
+        SELECT DISTINCT
+        <include refid="role_column"/>
+        FROM `common_role` AS R
+        INNER JOIN `common_admin_role` AS AR ON R.`id` = AR.`role_id`
+        WHERE AR.`admin_id` IN (0
+        <if test="adminIds != null and !adminIds.isEmpty()">
+            <foreach collection="adminIds" item="adminId">
+                ,#{adminId}
+            </foreach>
+        </if>
+        )
+    </select>
+
+    <insert id="saveAdminRoles">
+        INSERT IGNORE INTO `common_admin_role` (admin_id, role_id)
+        VALUES
+        <foreach collection="adminRoles" item="adminRole" separator=",">
+            (#{adminRole.adminId}, #{adminRole.roleId})
+        </foreach>
+    </insert>
+
+    <delete id="removeAdminRoles">
+        DELETE FROM `common_admin_role`
+        WHERE 1 = 1
+        <if test="adminIds != null and !adminIds.isEmpty()">
+            AND `admin_id` IN
+            <foreach collection="adminIds" item="adminId" open="(" close=")" separator=",">
+                #{adminId}
+            </foreach>
+        </if>
+        <if test="roleIds != null and !roleIds.isEmpty()">
+            AND `role_id` IN
+            <foreach collection="roleIds" item="roleId" open="(" close=")" separator=",">
+                #{roleId}
+            </foreach>
+        </if>
+    </delete>
+
+    <select id="listAdminRoles" resultType="com.slingerxv.writer.security.model.CommonAdminRole">
+        SELECT
+        <include refid="admin_role_column"/>
+        FROM `common_admin_role`
+        WHERE 1 = 1
+        <if test="adminIds != null and !adminIds.isEmpty()">
+            AND `admin_id` IN
+            <foreach collection="adminIds" item="adminId" open="(" close=")" separator=",">
+                #{adminId}
+            </foreach>
+        </if>
+        <if test="roleIds != null and !roleIds.isEmpty()">
+            AND `role_id` IN
+            <foreach collection="roleIds" item="roleId" open="(" close=")" separator=",">
+                #{roleId}
+            </foreach>
+        </if>
+    </select>
+
+    <insert id="saveRole">
+        INSERT INTO `common_role` (name, status, description)
+        VALUES (#{name}, #{status}, #{description})
+    </insert>
+
+    <delete id="removeRoles">
+        DELETE FROM `common_role`
+        WHERE 1 = 1
+        <if test="roleIds != null and !roleIds.isEmpty()">
+            AND `id` IN
+            <foreach collection="roleIds" item="roleId" open="(" close=")" separator=",">
+                #{roleId}
+            </foreach>
+        </if>
+    </delete>
+
+    <update id="updateRole">
+        UPDATE `common_role`
+        SET `id` = #{id}
+        <if test="name != null">
+            ,`name` = #{name}
+        </if>
+        <if test="status != null">
+            ,`status` = #{status}
+        </if>
+        <if test="description != null">
+            ,`description` = #{description}
+        </if>
+        WHERE `id` = #{id}
+    </update>
+
+    <select id="listRoles" resultType="com.slingerxv.writer.security.model.CommonRole">
+        SELECT
+        <include refid="role_column"/>
+        FROM `common_role`
+        WHERE 1 = 1
+        <if test="roleIds != null and !roleIds.isEmpty()">
+            AND `id` IN
+            <foreach collection="roleIds" item="roleId" open="(" close=")" separator=",">
+                #{roleId}
+            </foreach>
+        </if>
+        <if test="roleNames != null and !roleNames.isEmpty()">
+            AND `name` IN
+            <foreach collection="roleNames" item="roleName" open="(" close=")" separator=",">
+                #{roleName}
+            </foreach>
+        </if>
+        <if test="status != null">
+            AND `status` = #{status}
+        </if>
+    </select>
+
+    <select id="listRolesByAuthorityIds" resultType="com.slingerxv.writer.security.model.CommonRole">
+        SELECT DISTINCT
+        <include refid="role_column"/>
+        FROM `common_role` AS R
+        INNER JOIN `common_role_authority` AS RA ON R.`id` = RA.`role_id`
+        WHERE RA.`authority_id` IN (0
+        <if test="authorityIds != null and !authorityIds.isEmpty()">
+            <foreach collection="authorityIds" item="authorityId">
+                ,#{authorityId}
+            </foreach>
+        </if>
+        )
+    </select>
+
+    <insert id="saveRoleAuthorities">
+        INSERT IGNORE INTO `common_role_authority` (role_id, authority_id)
+        VALUES
+        <foreach collection="roleAuthorities" item="roleAuthority" separator=",">
+            (#{roleAuthority.roleId}, #{roleAuthority.authorityId})
+        </foreach>
+    </insert>
+
+    <delete id="removeRoleAuthorities">
+        DELETE FROM `common_role_authority`
+        WHERE 1 = 1
+        <if test="roleIds != null and !roleIds.isEmpty()">
+            AND `role_id` IN
+            <foreach collection="roleIds" item="roleId" open="(" close=")" separator=",">
+                #{roleId}
+            </foreach>
+        </if>
+        <if test="authorityIds != null and !authorityIds.isEmpty()">
+            AND `authority_id` IN
+            <foreach collection="authorityIds" item="authorityId" open="(" close=")" separator=",">
+                #{authorityId}
+            </foreach>
+        </if>
+    </delete>
+
+    <select id="listRoleAuthorities" resultType="com.slingerxv.writer.security.model.CommonRoleAuthority">
+        SELECT
+        <include refid="role_authority_column"/>
+        FROM `common_role_authority`
+        WHERE 1 = 1
+        <if test="roleIds != null and !roleIds.isEmpty()">
+            AND `role_id` IN
+            <foreach collection="roleIds" item="roleId" open="(" close=")" separator=",">
+                #{roleId}
+            </foreach>
+        </if>
+        <if test="authorityIds != null and !authorityIds.isEmpty()">
+            AND `authority_id` IN
+            <foreach collection="authorityIds" item="authorityId" open="(" close=")" separator=",">
+                #{authorityId}
+            </foreach>
+        </if>
+    </select>
+
+    <insert id="saveAuthority">
+        INSERT INTO `common_authority` (name, authority, description)
+        VALUES (#{name}, #{authority}, #{description})
+        ON DUPLICATE KEY UPDATE
+            name        = #{name},
+            description = #{description}
+    </insert>
+
+    <select id="listAuthorities" resultType="com.slingerxv.writer.security.model.CommonAuthority">
+        SELECT
+        <include refid="authority_column"/>
+        FROM `common_authority`
+        <if test="authorityIds != null and !authorityIds.isEmpty()">
+            WHERE `id` IN
+            <foreach collection="authorityIds" item="authorityId" open="(" close=")" separator=",">
+                #{authorityId}
+            </foreach>
+        </if>
+    </select>
+
+    <select id="listAuthoritiesByRoleIds" resultType="com.slingerxv.writer.security.model.CommonAuthority">
+        SELECT DISTINCT
+        <include refid="authority_column"/>
+        FROM `common_authority` AS A
+        INNER JOIN `common_role_authority` AS RA ON A.`id` = RA.`authority_id`
+        WHERE RA.`role_id` IN (0
+        <if test="roleIds != null and !roleIds.isEmpty()">
+            <foreach collection="roleIds" item="roleId">
+                ,#{roleId}
+            </foreach>
+        </if>
+        )
+    </select>
+
+    <select id="getLastInsertId" resultType="java.lang.Long">
+        SELECT LAST_INSERT_ID()
+    </select>
+</mapper>

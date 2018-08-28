@@ -16,7 +16,6 @@
 *.iws
 *.iml
 *.ipr
-src/
 
 ### NetBeans ###
 /nbproject/private/
@@ -28,4 +27,6 @@ src/
 
 ### logs ###
 logs
+mvnw
+mvnw.cmd
 

@@ -1,0 +1,30 @@
+server:
+  port: 9501
+  session:
+    timeout: 180
+
+spring:
+  datasource:
+    mysql:
+      url: jdbc:mysql://localhost:3306/writercq?useUnicode=true&characterEncoding=UTF-8&autoReconnect=true&zeroDateTimeBehavior=convertToNull
+      username: root
+      password:
+      driver-class-name: com.mysql.jdbc.Driver
+      type: org.apache.tomcat.jdbc.pool.DataSource
+      initial-size: 3
+      max-active: 10
+      max-Idle: 10
+      validation-query: SELECT 1
+      validationQueryTimeout: 30000
+      testWhileIdle: true
+      timeBetweenEvictionRunsMillis: 60000
+      validationInterval: 30000
+
+security:
+  basic:
+    enabled: true
+
+mybatis:
+  mapperLocations: classpath:mybatis/mapper/**.xml
+  typeAliasesPackage: com.slingerxv.writer.security.mapper
+  configLocation: classpath:mybatis/config.xml
