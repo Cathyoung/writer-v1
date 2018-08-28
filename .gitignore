@@ -12,7 +12,7 @@
 
 ### IntelliJ IDEA ###
 .idea
-.mvn
+.mvn/wrapper
 *.iws
 *.iml
 *.ipr
@@ -28,5 +28,4 @@ src/
 
 ### logs ###
 logs
-.mvn/*
 
