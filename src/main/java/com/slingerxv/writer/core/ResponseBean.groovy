@@ -9,6 +9,7 @@ class ResponseBean<T> {
     String code
     String message
     T data
+    Object extra
 
     static <T> ResponseBean<T> success() {
         return new ResponseBean<>(code: ResponseCodeEnum.SUCCESS.code)
@@ -24,5 +25,13 @@ class ResponseBean<T> {
 
     static <T> ResponseBean<T> fail(ResponseCodeEnum responseCodeEnum, String message) {
         return new ResponseBean<>(code: responseCodeEnum.code, message: message)
+    }
+
+    ResponseBean setExtra(Object extra) {
+        if (extra != null && extra instanceof CharSequence) {
+            extra = extra.toString();
+        }
+        this.extra = extra;
+        return this;
     }
 }

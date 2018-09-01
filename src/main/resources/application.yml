@@ -1,7 +1,11 @@
 server:
   port: 9501
   session:
-    timeout: 180
+    timeout: 3600
+
+security:
+  basic:
+    enabled: true
 
 spring:
   datasource:
@@ -19,12 +23,14 @@ spring:
       testWhileIdle: true
       timeBetweenEvictionRunsMillis: 60000
       validationInterval: 30000
-
-security:
-  basic:
-    enabled: true
+  http:
+    multipart:
+      max-file-size: 30MB
 
 mybatis:
   mapperLocations: classpath:mybatis/mapper/**.xml
   typeAliasesPackage: com.slingerxv.writer.security.mapper
   configLocation: classpath:mybatis/config.xml
+
+fileconfig:
+  uploadFilePath: /pic/IMG

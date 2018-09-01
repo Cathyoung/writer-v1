@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.slingerxv.writer.dao.mapper.FileInfoMapper">
+
+    <insert id="insert">
+        INSERT INTO `file_info` (
+            task_id, path, create_time, file_name, creator, file_type
+        )
+        VALUES (
+            #{taskId},
+            #{path},
+            #{createTime},
+            #{fileName},
+            #{creator},
+            #{fileType}
+        )
+    </insert>
+
+</mapper>
