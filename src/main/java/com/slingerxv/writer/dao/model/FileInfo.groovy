@@ -33,5 +33,10 @@ class FileInfo {
 
     String creator
 
-    BigDecimal createTime
+    /**
+     * 下载次数
+     */
+    Integer downloadCount
+
+    Long createTime
 }

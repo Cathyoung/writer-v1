@@ -11,8 +11,7 @@ import javax.servlet.http.HttpServletResponse
  */
 @CompileStatic
 interface FileUploadService {
-    ResponseBean fileUpload(BaseFileDto baseFileDto, HttpServletRequest request) throws IOException
+    ResponseBean fileUpload(BaseFileDto baseFileDto, HttpServletRequest request)
 
-    void fileDownload(String filePath, String fileName, HttpServletResponse response) throws IOException
-
+    void fileDownload(BaseFileDto baseFileDto, HttpServletResponse response) throws Exception
 }

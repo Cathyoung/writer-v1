@@ -7,6 +7,7 @@ import groovy.util.logging.Slf4j
 import org.springframework.web.bind.annotation.ControllerAdvice
 import org.springframework.web.bind.annotation.ExceptionHandler
 import org.springframework.web.bind.annotation.ResponseBody
+import org.springframework.web.multipart.MultipartException
 
 import javax.servlet.http.HttpServletRequest
 
@@ -20,6 +21,8 @@ class GlobalExceptionHandler {
         ResponseBean result
         if (e instanceof IllegalArgumentException) {
             result = getResponseBeanInfo(ResponseCodeEnum.PARAMETER_ERROR, e, LogLevelEnum.WARN)
+        } else if (e instanceof MultipartException) {
+            result = getResponseBeanInfo(ResponseCodeEnum.MAX_FILE_SISE, e, LogLevelEnum.ERROR)
         } else {
             result = getResponseBeanInfo(ResponseCodeEnum.ERROR, e, LogLevelEnum.ERROR)
         }

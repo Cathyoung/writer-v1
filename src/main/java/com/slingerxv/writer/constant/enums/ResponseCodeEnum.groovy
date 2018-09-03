@@ -16,7 +16,10 @@ enum ResponseCodeEnum {
     USER_NOT_FOUND('User not found'),
     USER_DISABLED('User is disabled'),
     PARAMETER_ERROR("Parameter error, please check your request whether has illegal parameters"),
-    USER_ALREADY_EXISTS('User already exists')
+    USER_ALREADY_EXISTS('User already exists'),
+    MAX_FILE_SISE('File size greater than specified'),
+    FILE_NOT_FIND('File not find')
+
     String message
 
     private ResponseCodeEnum(String message) {

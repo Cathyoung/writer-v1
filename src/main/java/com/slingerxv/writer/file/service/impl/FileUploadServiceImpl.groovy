@@ -1,5 +1,6 @@
 package com.slingerxv.writer.file.service.impl
 
+import com.alibaba.fastjson.JSON
 import com.slingerxv.writer.constant.enums.ResponseCodeEnum
 import com.slingerxv.writer.core.ResponseBean
 import com.slingerxv.writer.file.service.BaseFileDto
@@ -15,6 +16,7 @@ import org.springframework.beans.factory.annotation.Value
 import org.springframework.context.ApplicationContext
 import org.springframework.context.ApplicationContextAware
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
 import org.springframework.web.multipart.support.StandardMultipartHttpServletRequest
 
@@ -45,7 +47,7 @@ class FileUploadServiceImpl implements FileUploadService, ApplicationContextAwar
     }
 
     @Override
-    ResponseBean fileUpload(BaseFileDto baseFileDto, HttpServletRequest request) throws IOException {
+    ResponseBean fileUpload(BaseFileDto baseFileDto, HttpServletRequest request) {
         //检查请求是否是multipart/form-data类型
         if (!ServletFileUpload.isMultipartContent(request)) {
             return ResponseBean.fail(ResponseCodeEnum.ERROR, '表单的enctype属性不是multipart/form-data类型')
@@ -57,15 +59,24 @@ class FileUploadServiceImpl implements FileUploadService, ApplicationContextAwar
             return ResponseBean.fail(ResponseCodeEnum.ERROR, '上传文件个数只能1个')
         }
         def message
-        while (iterator.hasNext()) {
-            message = handleUploadField(req.getFile(iterator.next()), baseFileDto)
+        iterator.each {
+            message = handleUploadField(req.getFile(it), baseFileDto)
         }
         return message ? ResponseBean.fail(ResponseCodeEnum.ERROR, message as String) : ResponseBean.success()
     }
 
     @Override
-    void fileDownload(String filePath, String fileName, HttpServletResponse response) throws IOException {
-
+    @Transactional(rollbackFor = Exception.class)
+    void fileDownload(BaseFileDto baseFileDto, HttpServletResponse response) throws Exception {
+        String fileName = new String(baseFileDto.fileName.getBytes("GB2312"), "ISO-8859-1")//确保下载文件名是中文
+        String filePath = baseFileDto.path
+        //下载业务处理
+        map.each {
+            it.value.businessDownloadHandle(baseFileDto)
+        }
+        response.setHeader("content-type", "application/octet-stream")
+        response.setHeader("Content-Disposition", "attachment;filename=${fileName}")
+        response.getOutputStream().write(Files.readAllBytes(Paths.get(filePath)))
     }
 
     /**
@@ -89,11 +100,13 @@ class FileUploadServiceImpl implements FileUploadService, ApplicationContextAwar
             baseFileDto.path = path.toFile().path
             baseFileDto.fileName = fileName
             map.each {
-                it.value.businessHandle(baseFileDto)
+                it.value.businessUploadHandle(baseFileDto)
             }
         } catch (Exception e) {
             //删除之前上传成功的文件
-            log.error('文件上传业务操作失败', e)
+            File file = path.toFile()
+            !file.exists() ?: file.delete()
+            log.error("文件上传业务操作失败,requestDto=" + JSON.toJSONString(baseFileDto), e)
             return '文件上传业务操作失败'
         }
         return null
@@ -111,18 +124,5 @@ class FileUploadServiceImpl implements FileUploadService, ApplicationContextAwar
             file.mkdirs()
         }
         return new File(file.toString(), FileGeneratorUtils.fileGenerateId() + fileName)
-    }
-
-    private static void delete(File f) {
-        if (!f.exists()) {
-            return
-        }
-        File[] ff = f.listFiles()
-        for (File __f : ff) {
-            if (__f.isDirectory()) {
-                delete(__f)
-            }
-            __f.delete()
-        }
     }
 }
