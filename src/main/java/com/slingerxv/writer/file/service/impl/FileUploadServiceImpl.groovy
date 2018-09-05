@@ -1,7 +1,7 @@
 package com.slingerxv.writer.file.service.impl
 
 import com.alibaba.fastjson.JSON
-import com.slingerxv.writer.constant.enums.ResponseCodeEnum
+import com.slingerxv.writer.constant.enums.ResponseCode
 import com.slingerxv.writer.core.ResponseBean
 import com.slingerxv.writer.file.service.BaseFileDto
 import com.slingerxv.writer.file.service.FileBusinessHookService
@@ -50,19 +50,19 @@ class FileUploadServiceImpl implements FileUploadService, ApplicationContextAwar
     ResponseBean fileUpload(BaseFileDto baseFileDto, HttpServletRequest request) {
         //检查请求是否是multipart/form-data类型
         if (!ServletFileUpload.isMultipartContent(request)) {
-            return ResponseBean.fail(ResponseCodeEnum.ERROR, '表单的enctype属性不是multipart/form-data类型')
+            return ResponseBean.fail(ResponseCode.ERROR, '表单的enctype属性不是multipart/form-data类型')
         }
         StandardMultipartHttpServletRequest req = (StandardMultipartHttpServletRequest) request
         Iterator<String> iterator = req.getFileNames()
         //目前支持单个上传
         if (req.getFileMap().size() != 1) {
-            return ResponseBean.fail(ResponseCodeEnum.ERROR, '上传文件个数只能1个')
+            return ResponseBean.fail(ResponseCode.ERROR, '上传文件个数只能1个')
         }
         def message
         iterator.each {
             message = handleUploadField(req.getFile(it), baseFileDto)
         }
-        return message ? ResponseBean.fail(ResponseCodeEnum.ERROR, message as String) : ResponseBean.success()
+        return message ? ResponseBean.fail(ResponseCode.ERROR, message as String) : ResponseBean.success()
     }
 
     @Override

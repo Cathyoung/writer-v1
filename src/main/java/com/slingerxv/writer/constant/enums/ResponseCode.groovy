@@ -3,7 +3,7 @@ package com.slingerxv.writer.constant.enums
 import groovy.transform.CompileStatic
 
 @CompileStatic
-enum ResponseCodeEnum {
+enum ResponseCode {
 
     SUCCESS('Success'),
     ERROR('Error happened'),
@@ -22,7 +22,7 @@ enum ResponseCodeEnum {
 
     String message
 
-    private ResponseCodeEnum(String message) {
+    private ResponseCode(String message) {
         this.message = message
     }
 

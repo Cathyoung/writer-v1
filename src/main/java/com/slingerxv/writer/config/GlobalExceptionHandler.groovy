@@ -1,7 +1,7 @@
 package com.slingerxv.writer.config
 
-import com.slingerxv.writer.constant.enums.LogLevelEnum
-import com.slingerxv.writer.constant.enums.ResponseCodeEnum
+import com.slingerxv.writer.constant.enums.LogLevel
+import com.slingerxv.writer.constant.enums.ResponseCode
 import com.slingerxv.writer.core.ResponseBean
 import groovy.util.logging.Slf4j
 import org.springframework.web.bind.annotation.ControllerAdvice
@@ -20,21 +20,21 @@ class GlobalExceptionHandler {
     ResponseBean defaultErrorHandler(HttpServletRequest request, Exception e) throws Exception {
         ResponseBean result
         if (e instanceof IllegalArgumentException) {
-            result = getResponseBeanInfo(ResponseCodeEnum.PARAMETER_ERROR, e, LogLevelEnum.WARN)
+            result = getResponseBeanInfo(ResponseCode.PARAMETER_ERROR, e, LogLevel.WARN)
         } else if (e instanceof MultipartException) {
-            result = getResponseBeanInfo(ResponseCodeEnum.MAX_FILE_SISE, e, LogLevelEnum.ERROR)
+            result = getResponseBeanInfo(ResponseCode.MAX_FILE_SISE, e, LogLevel.ERROR)
         } else {
-            result = getResponseBeanInfo(ResponseCodeEnum.ERROR, e, LogLevelEnum.ERROR)
+            result = getResponseBeanInfo(ResponseCode.ERROR, e, LogLevel.ERROR)
         }
         return result
     }
 
-    ResponseBean getResponseBeanInfo(ResponseCodeEnum codeEnum, Exception e, LogLevelEnum logLevelEnum) {
+    ResponseBean getResponseBeanInfo(ResponseCode codeEnum, Exception e, LogLevel logLevelEnum) {
         switch (logLevelEnum) {
-            case LogLevelEnum.INFO: log.info("info level", e); break
-            case LogLevelEnum.WARN: log.warn("warn level", e); break
-            case LogLevelEnum.ERROR: log.error("error level", e); break
-            case LogLevelEnum.DEBUG: log.debug("debug level", e); break
+            case LogLevel.INFO: log.info("info level", e); break
+            case LogLevel.WARN: log.warn("warn level", e); break
+            case LogLevel.ERROR: log.error("error level", e); break
+            case LogLevel.DEBUG: log.debug("debug level", e); break
         }
         return new ResponseBean(
                 code: codeEnum,

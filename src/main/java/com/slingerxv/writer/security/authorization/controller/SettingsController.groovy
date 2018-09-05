@@ -1,6 +1,6 @@
 package com.slingerxv.writer.security.authorization.controller
 
-import com.slingerxv.writer.constant.enums.ResponseCodeEnum
+import com.slingerxv.writer.constant.enums.ResponseCode
 import com.slingerxv.writer.core.ResponseBean
 import com.slingerxv.writer.security.authorization.util.AuthorizationCustomException
 import com.slingerxv.writer.security.authorization.util.ContextHolder
@@ -39,7 +39,7 @@ class SettingsController {
     ResponseBean changePassword(@RequestBody Map<String, String> requestBody) {
         CommonUserDetails currentUser = ContextHolder.currentUser
         if (!passwordEncoder.matches(requestBody['oldPassword'], currentUser.password)) {
-            return ResponseBean.fail(ResponseCodeEnum.ERROR, 'Current password is wrong!')
+            return ResponseBean.fail(ResponseCode.ERROR, 'Current password is wrong!')
         }
         try {
             CommonAdmin user = new CommonAdmin(id: currentUser.id, password: passwordEncoder.encode(requestBody['password']))

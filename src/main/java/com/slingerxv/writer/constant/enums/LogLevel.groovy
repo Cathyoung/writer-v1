@@ -6,7 +6,7 @@ import groovy.transform.CompileStatic
  * Created by chenyong on 2018/8/26
  */
 @CompileStatic
-enum LogLevelEnum {
+enum LogLevel {
     /**
      * 警告系统能继续运行, 但是必须引起关注
      */

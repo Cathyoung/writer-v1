@@ -1,6 +1,6 @@
 package com.slingerxv.writer.core
 
-import com.slingerxv.writer.constant.enums.ResponseCodeEnum
+import com.slingerxv.writer.constant.enums.ResponseCode
 
 /**
  * Created by chenyong on 2018/8/26
@@ -12,18 +12,18 @@ class ResponseBean<T> {
     Object extra
 
     static <T> ResponseBean<T> success() {
-        return new ResponseBean<>(code: ResponseCodeEnum.SUCCESS.code)
+        return new ResponseBean<>(code: ResponseCode.SUCCESS.code)
     }
 
     static <T> ResponseBean<T> success(T data) {
-        return new ResponseBean<>(code: ResponseCodeEnum.SUCCESS.code, message: null as String, data: data)
+        return new ResponseBean<>(code: ResponseCode.SUCCESS.code, message: null as String, data: data)
     }
 
-    static <T> ResponseBean<T> fail(ResponseCodeEnum responseCodeEnum) {
+    static <T> ResponseBean<T> fail(ResponseCode responseCodeEnum) {
         return new ResponseBean<>(code: responseCodeEnum.code, message: responseCodeEnum.message)
     }
 
-    static <T> ResponseBean<T> fail(ResponseCodeEnum responseCodeEnum, String message) {
+    static <T> ResponseBean<T> fail(ResponseCode responseCodeEnum, String message) {
         return new ResponseBean<>(code: responseCodeEnum.code, message: message)
     }
 

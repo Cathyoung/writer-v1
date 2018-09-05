@@ -1,7 +1,7 @@
 package com.slingerxv.writer.security.authorization.controller
 
 import com.slingerxv.writer.constant.SecurityConstants
-import com.slingerxv.writer.constant.enums.ResponseCodeEnum
+import com.slingerxv.writer.constant.enums.ResponseCode
 import com.slingerxv.writer.core.ResponseBean
 import com.slingerxv.writer.security.authorization.dto.BackendUserDTO
 import com.slingerxv.writer.security.authorization.service.AdminService
@@ -44,12 +44,12 @@ class LoginController {
     ResponseBean loginFail(HttpServletRequest request) {
         AuthenticationException exception =
                 (AuthenticationException) request.getSession().getAttribute(WebAttributes.AUTHENTICATION_EXCEPTION)
-        ResponseCodeEnum code = ResponseCodeEnum.LOGIN_FAILED
+        ResponseCode code = ResponseCode.LOGIN_FAILED
         if (exception != null) {
             if (exception instanceof UsernameNotFoundException) {
-                code = ResponseCodeEnum.USER_NOT_FOUND
+                code = ResponseCode.USER_NOT_FOUND
             } else if (exception instanceof DisabledException) {
-                code = ResponseCodeEnum.USER_DISABLED
+                code = ResponseCode.USER_DISABLED
             }
         }
         return ResponseBean.fail(code)

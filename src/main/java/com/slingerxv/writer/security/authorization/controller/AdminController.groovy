@@ -1,6 +1,6 @@
 package com.slingerxv.writer.security.authorization.controller
 
-import com.slingerxv.writer.constant.enums.ResponseCodeEnum
+import com.slingerxv.writer.constant.enums.ResponseCode
 import com.slingerxv.writer.core.ResponseBean
 import com.slingerxv.writer.security.authorization.dto.AdminWithRolesDTO
 import com.slingerxv.writer.security.authorization.dto.RoleWithAuthoritiesDTO
@@ -44,7 +44,7 @@ class AdminController {
         try {
             adminService.saveRole(role)
         } catch (AuthorizationCustomException e) {
-            return ResponseBean.fail(ResponseCodeEnum.ERROR, e.message)
+            return ResponseBean.fail(ResponseCode.ERROR, e.message)
         }
         return ResponseBean.success()
     }
@@ -54,7 +54,7 @@ class AdminController {
         try {
             adminService.updateRole(roleId, role)
         } catch (AuthorizationCustomException e) {
-            return ResponseBean.fail(ResponseCodeEnum.ERROR, e.message)
+            return ResponseBean.fail(ResponseCode.ERROR, e.message)
         }
         return ResponseBean.success()
     }
@@ -75,7 +75,7 @@ class AdminController {
         try {
             adminService.saveAdmin(admin)
         } catch (AuthorizationCustomException e) {
-            return ResponseBean.fail(ResponseCodeEnum.ERROR, e.message)
+            return ResponseBean.fail(ResponseCode.ERROR, e.message)
         }
         return ResponseBean.success()
     }
@@ -85,7 +85,7 @@ class AdminController {
         try {
             adminService.updateAdmin(userId, admin)
         } catch (AuthorizationCustomException e) {
-            return ResponseBean.fail(ResponseCodeEnum.ERROR, e.message)
+            return ResponseBean.fail(ResponseCode.ERROR, e.message)
         }
         return ResponseBean.success()
     }

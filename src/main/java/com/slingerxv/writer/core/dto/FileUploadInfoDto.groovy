@@ -1,6 +1,6 @@
 package com.slingerxv.writer.core.dto
 
-import com.slingerxv.writer.constant.enums.FileTypeEnum
+import com.slingerxv.writer.constant.enums.FileType
 import com.slingerxv.writer.file.service.BaseFileDto
 import groovy.transform.CompileStatic
 
@@ -22,6 +22,6 @@ class FileUploadInfoDto extends BaseFileDto {
      * 文件属性-新稿件 修改稿 代写要求 修改文档等
      */
     @NotNull
-    FileTypeEnum fileType
+    FileType fileType
 
 }

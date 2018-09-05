@@ -29,7 +29,6 @@ spring:
 
 mybatis:
   mapperLocations: classpath:mybatis/mapper/**.xml
-  typeAliasesPackage: com.slingerxv.writer.security.mapper
   configLocation: classpath:mybatis/config.xml
 
 fileconfig:

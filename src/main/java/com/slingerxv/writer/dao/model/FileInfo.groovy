@@ -1,6 +1,6 @@
 package com.slingerxv.writer.dao.model
 
-import com.slingerxv.writer.constant.enums.FileTypeEnum
+import com.slingerxv.writer.constant.enums.FileType
 import groovy.transform.CompileStatic
 
 /**
@@ -24,7 +24,7 @@ class FileInfo {
     /**
      * 文件属性-新稿件 修改稿 代写要求 修改文档等
      */
-    FileTypeEnum fileType
+    FileType fileType
 
     /**
      * 文件名

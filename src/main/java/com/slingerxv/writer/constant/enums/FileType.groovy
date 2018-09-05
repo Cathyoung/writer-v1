@@ -6,7 +6,7 @@ import groovy.transform.CompileStatic
  * Created by chenyong on 2018/9/1
  */
 @CompileStatic
-enum FileTypeEnum {
+enum FileType {
     NEW,
     UPDATE,
 }

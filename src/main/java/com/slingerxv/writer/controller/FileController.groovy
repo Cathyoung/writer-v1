@@ -1,7 +1,7 @@
 package com.slingerxv.writer.controller
 
 import com.alibaba.fastjson.JSON
-import com.slingerxv.writer.constant.enums.ResponseCodeEnum
+import com.slingerxv.writer.constant.enums.ResponseCode
 import com.slingerxv.writer.core.ResponseBean
 import com.slingerxv.writer.core.dto.FileDownloadInfoDto
 import com.slingerxv.writer.core.dto.FileUploadInfoDto
@@ -64,12 +64,12 @@ class FileController extends BaseController {
                 return ResponseBean.success()
             } catch (NoSuchFileException e) {
                 log.error("下载文件不存在,requestDto=" + JSON.toJSONString(fileDownloadInfoDto), e)
-                return ResponseBean.fail(ResponseCodeEnum.FILE_NOT_FIND)
+                return ResponseBean.fail(ResponseCode.FILE_NOT_FIND)
             } catch (Exception e) {
                 log.error("下载文件异常,requestDto=" + JSON.toJSONString(fileDownloadInfoDto), e)
-                return ResponseBean.fail(ResponseCodeEnum.ERROR, '文件下载失败')
+                return ResponseBean.fail(ResponseCode.ERROR, '文件下载失败')
             }
         }
-        return ResponseBean.fail(ResponseCodeEnum.FILE_NOT_FIND)
+        return ResponseBean.fail(ResponseCode.FILE_NOT_FIND)
     }
 }

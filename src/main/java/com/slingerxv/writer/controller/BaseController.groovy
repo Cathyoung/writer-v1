@@ -1,6 +1,6 @@
 package com.slingerxv.writer.controller
 
-import com.slingerxv.writer.constant.enums.ResponseCodeEnum
+import com.slingerxv.writer.constant.enums.ResponseCode
 import com.slingerxv.writer.core.ResponseBean
 import groovy.transform.CompileStatic
 import lombok.extern.slf4j.Slf4j
@@ -24,6 +24,6 @@ class BaseController {
     }
 
     static ResponseBean failedWithParameterError() {
-        return ResponseBean.fail(ResponseCodeEnum.PARAMETER_ERROR)
+        return ResponseBean.fail(ResponseCode.PARAMETER_ERROR)
     }
 }

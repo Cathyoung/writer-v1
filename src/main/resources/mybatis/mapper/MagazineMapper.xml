@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.slingerxv.writer.dao.mapper.MagazineMapper">
+
+    <insert id="insert">
+        INSERT INTO `magazine` (
+          title, content, enable, creator, create_time, updator, update_time
+        )
+        VALUES (
+            #{title},
+            #{content},
+            #{enable},
+            #{creator},
+            #{createTime},
+            #{updator},
+            #{updateTime}
+        )
+    </insert>
+
+    <select id="getById" resultType="com.slingerxv.writer.dao.model.Magazine">
+        SELECT id, title, content, creator, enable, create_time, updator, update_time from `magazine` where id = #{id} and enable = 1
+    </select>
+
+    <select id="listAllByTitle" resultType="com.slingerxv.writer.dao.model.Magazine">
+        SELECT id, title, content, creator, enable, create_time, updator, update_time from `magazine`
+        where enable = 1
+        <if test="title != null and title != ''">
+            and title like CONCAT('%',#{title}, '%')
+        </if>
+        <if test="createStartTime != null">
+            and create_time <![CDATA[ >= ]]> #{createStartTime}
+        </if>
+        <if test="createEndTime != null">
+            and create_time <![CDATA[ <= ]]>{createEndTime}
+        </if>
+    </select>
+
+    <update id="update">
+        UPDATE `magazine` SET
+            `title` = #{title},
+            `content` = #{content},
+            `enable` = #{enable},
+            `creator` = #{creator},
+            `create_time` = #{createTime},
+            `updator` = #{updator},
+            `update_time` = #{updateTime}
+        WHERE `id` = #{id} and enable = 1
+    </update>
+
+    <update id="delete">
+        UPDATE `magazine` SET
+            `enable` = 0,
+            `updator` = #{updator},
+            `update_time` = #{updateTime}
+        WHERE `id` = #{id}
+    </update>
+
+</mapper>
