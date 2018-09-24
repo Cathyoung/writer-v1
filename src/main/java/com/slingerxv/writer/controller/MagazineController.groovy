@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest
 @RestController
 @CompileStatic
 @Slf4j
-@RequestMapping('/magazine')
+@RequestMapping('writer/magazine')
 class MagazineController extends BaseController {
 
     @Autowired

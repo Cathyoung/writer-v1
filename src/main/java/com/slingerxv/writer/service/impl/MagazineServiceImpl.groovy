@@ -28,7 +28,7 @@ class MagazineServiceImpl implements MagazineService {
                         content: content,
                         creator: ContextHolder.currentUser.realName,
                         createTime: System.currentTimeMillis(),
-                        enable: (byte) DataRecoradStatus.ENABLE.value
+                        enable: DataRecoradStatus.ENABLE.value as byte
                 )
         )
     }
