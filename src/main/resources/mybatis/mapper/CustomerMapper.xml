@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.slingerxv.writer.dao.mapper.CustomerMapper">
+  <resultMap id="BaseResultMap" type="com.slingerxv.writer.dao.model.Customer">
+    <!--
+      WARNING - @mbg.generated
+    -->
+    <id column="id" jdbcType="INTEGER" property="id" />
+    <result column="c_name" jdbcType="VARCHAR" property="cName" />
+    <result column="c_mobile" jdbcType="VARCHAR" property="cMobile" />
+    <result column="c_enable" jdbcType="TINYINT" property="cEnable" />
+    <result column="c_type" jdbcType="VARCHAR" property="cType" />
+    <result column="c_qq" jdbcType="VARCHAR" property="cQq" />
+    <result column="c_wechat" jdbcType="VARCHAR" property="cWechat" />
+    <result column="c_region" jdbcType="VARCHAR" property="cRegion" />
+    <result column="c_description" jdbcType="VARCHAR" property="cDescription" />
+    <result column="c_title" jdbcType="VARCHAR" property="cTitle" />
+    <result column="c_department" jdbcType="VARCHAR" property="cDepartment" />
+    <result column="c_hospital" jdbcType="VARCHAR" property="cHospital" />
+    <result column="c_difficulty" jdbcType="TINYINT" property="cDifficulty" />
+    <result column="creator" jdbcType="INTEGER" property="creator" />
+    <result column="creat_name" jdbcType="VARCHAR" property="creatName" />
+    <result column="create_time" jdbcType="BIGINT" property="createTime" />
+    <result column="updat_name" jdbcType="VARCHAR" property="updatName" />
+    <result column="update_time" jdbcType="BIGINT" property="updateTime" />
+    <result column="enable" jdbcType="BIT" property="enable" />
+  </resultMap>
+</mapper>
