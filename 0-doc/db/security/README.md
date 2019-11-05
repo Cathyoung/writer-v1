@@ -9,35 +9,3 @@
 ```
 
 6. 以下SQL用来生成默认admin用户(密码亦为admin)和administrator角色
-```mysql
-INSERT INTO `common_admin`
-(`id`, `username`, `password`, `email`, `real_name`, `mobile`, `status`, `create_timestamp`, `update_timestamp`)
-VALUES
-(1, 'admin', '45cd6cbdf7464fbbe0a0e211b2fcad69eb8cf8120787e6e5d951dfb58f1ff51f55e241be12f20139', 'admin@advance.ai', 'admin', '', 'ENABLED', UNIX_TIMESTAMP() * 1000, UNIX_TIMESTAMP() * 1000)
-ON DUPLICATE KEY UPDATE
-`id` = 1,
-`username` = 'admin',
-`password` = '45cd6cbdf7464fbbe0a0e211b2fcad69eb8cf8120787e6e5d951dfb58f1ff51f55e241be12f20139',
-`email` = 'admin@advance.ai',
-`real_name` = 'admin',
-`status` = 'ENABLED',
-`update_timestamp` = UNIX_TIMESTAMP() * 1000;
-
-INSERT INTO `common_role`
-(`id`, `name`, `status`, `description`)
-VALUES
-(1, 'administrator', 'ENABLED', 'root access')
-ON DUPLICATE KEY UPDATE
-`id` = 1,
-`name` = 'administrator',
-`status` = 'ENABLED',
-`description` = 'root access';
-
-INSERT IGNORE INTO `common_admin_role` (`admin_id`, `role_id`)
-VALUES (1, 1);
-
-INSERT INTO `common_role_authority`
-(`role_id`, `authority_id`)
-SELECT 1, `id` FROM `common_authority`;
-
-```
