@@ -1,6 +1,7 @@
 package com.slingerxv.writer.service.impl
 
 import com.slingerxv.writer.constant.enums.CustomerType
+import com.slingerxv.writer.constant.enums.DataRecoradStatus
 import com.slingerxv.writer.dao.mapper.CustomerMapper
 import com.slingerxv.writer.dao.model.Customer
 import com.slingerxv.writer.service.CustomerService
@@ -25,11 +26,21 @@ class CustomerServiceImpl implements CustomerService {
     }
 
     @Override
+    void delete(Integer id) {
+        Customer customer = new Customer(
+                id: id,
+                cEnable: DataRecoradStatus.DISABLE.value as byte
+        )
+        customerMapper.updateByPrimaryKeySelective(customer)
+    }
+
+    @Override
     List<Customer> listAllByTypeOrName(CustomerType customerType, String cName) {
         Example example = new Example(Customer.class);
-        Example.Criteria criteria = example.createCriteria();
+        Example.Criteria criteria = example.createCriteria()
+        criteria.andEqualTo("cEnable", DataRecoradStatus.ENABLE.value as byte)
         customerType ? criteria.andEqualTo("customerType", customerType.name()) : null
-        cName ? criteria.andLike("cName", cName +"%") : null
+        cName ? criteria.andLike("cName", cName + "%") : null
         return customerMapper.selectByExample(example)
     }
 }

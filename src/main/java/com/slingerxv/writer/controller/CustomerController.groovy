@@ -30,7 +30,7 @@ import javax.validation.Valid
 @RestController
 @CompileStatic
 @Slf4j
-@RequestMapping('/customer')
+@RequestMapping('writer/customer')
 class CustomerController extends BaseController {
 
     @Autowired
@@ -73,12 +73,15 @@ class CustomerController extends BaseController {
 //        magazineService.update(id, title, content)
 //        return ResponseBean.success()
 //    }
-//
-//    @PostMapping(value = '/delete')
-//    ResponseBean delete(
-//            @RequestParam(value = "id", required = true) Long id, HttpServletRequest request) {
-//        magazineService.delete(id)
-//        return ResponseBean.success()
-//    }
+
+    @PostMapping(value = '/delete')
+    ResponseBean delete(
+            @RequestParam(value = "id", required = true) Long id, BindingResult bindingResult, HttpServletRequest request) {
+        if (bindingResult.hasErrors()) {
+            return failedWithParameterError(bindingResult)
+        }
+        customerService.delete(id.intValue())
+        return ResponseBean.success()
+    }
 
 }

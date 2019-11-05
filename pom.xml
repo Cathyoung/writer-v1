@@ -155,7 +155,7 @@
                     <configurationFile>
                         src/main/java/com/slingerxv/writer/dao/MapperGeneratorConfig.xml
                     </configurationFile>
-                    <overwrite>false</overwrite>
+                    <overwrite>true</overwrite>
                     <verbose>true</verbose>
                 </configuration>
                 <dependencies>

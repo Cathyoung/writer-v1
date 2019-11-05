@@ -29,7 +29,7 @@ import java.nio.file.NoSuchFileException
 @RestController
 @CompileStatic
 @Slf4j
-@RequestMapping('/file')
+@RequestMapping('writer/file')
 class FileController extends BaseController {
 
     @Autowired

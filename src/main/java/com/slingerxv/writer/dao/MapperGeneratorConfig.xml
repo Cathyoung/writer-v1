@@ -13,7 +13,7 @@
         </plugin>
 
         <jdbcConnection driverClass="com.mysql.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/writercq?characterEncoding=UTF-8"
+                        connectionURL='jdbc:mysql://localhost:3306/writercq?characterEncoding=UTF-8&amp;tinyInt1isBit=false'
                         userId="root"
                         password="">
         </jdbcConnection>

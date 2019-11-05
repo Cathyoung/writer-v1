@@ -17,6 +17,9 @@ public class Customer {
     @Column(name = "c_mobile")
     private String cMobile;
 
+    /**
+     * 1使用0删除
+     */
     @Column(name = "c_enable")
     private Byte cEnable;
 
@@ -86,11 +89,6 @@ public class Customer {
     private Long updateTime;
 
     /**
-     * 1使用0删除
-     */
-    private Boolean enable;
-
-    /**
      * @return id
      */
     public Integer getId() {
@@ -137,14 +135,18 @@ public class Customer {
     }
 
     /**
-     * @return c_enable
+     * 获取1使用0删除
+     *
+     * @return c_enable - 1使用0删除
      */
     public Byte getcEnable() {
         return cEnable;
     }
 
     /**
-     * @param cEnable
+     * 设置1使用0删除
+     *
+     * @param cEnable 1使用0删除
      */
     public void setcEnable(Byte cEnable) {
         this.cEnable = cEnable;
@@ -376,23 +378,5 @@ public class Customer {
      */
     public void setUpdateTime(Long updateTime) {
         this.updateTime = updateTime;
-    }
-
-    /**
-     * 获取1使用0删除
-     *
-     * @return enable - 1使用0删除
-     */
-    public Boolean getEnable() {
-        return enable;
-    }
-
-    /**
-     * 设置1使用0删除
-     *
-     * @param enable 1使用0删除
-     */
-    public void setEnable(Boolean enable) {
-        this.enable = enable;
     }
 }

@@ -23,6 +23,5 @@
     <result column="create_time" jdbcType="BIGINT" property="createTime" />
     <result column="updat_name" jdbcType="VARCHAR" property="updatName" />
     <result column="update_time" jdbcType="BIGINT" property="updateTime" />
-    <result column="enable" jdbcType="BIT" property="enable" />
   </resultMap>
 </mapper>

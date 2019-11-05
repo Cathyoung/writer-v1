@@ -10,8 +10,8 @@ interface CustomerService {
     void insert(Customer customer)
 
 //    void update(Long id, String title, String content)
-//
-//    void delete(Long id)
-//
+
+    void delete(Integer id)
+
     List<Customer> listAllByTypeOrName(CustomerType customerType, String cName)
 }
